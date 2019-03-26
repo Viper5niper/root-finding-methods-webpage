@@ -7,3 +7,9 @@
 .editarCliente{
   margin-left: 3%;
 }
+.isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}

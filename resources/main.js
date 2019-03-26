@@ -3,17 +3,58 @@ window.onload = iniciar;
 var tablaMostrar;
 var informacion;
 var res;
+var sideMenu;
 
 var _An;
 var _Bn;
 var _es;
 var _imax;
+var _ecuacion;
+var ecuacionDef; //la ecuacion definitiva que usaremos
 
 function iniciar(){
+
+  //console.log(math.eval('(cos('+0+'))')); // i will just leave this stuff
+  //special thanks to math.js
  
  tablaMostrar = document.getElementById("tablaFB");
  informacion = document.getElementById("informacion");
  res = document.getElementById("res");
+ sideMenu = document.getElementById("side-menu");
+
+}
+
+function AgregarFuncion(){ // ya funciona. Valida que la funcion sea prospera y bonita
+
+  _ecuacion = document.getElementById("ecuacion").value;
+
+  var ecuacionStr = _ecuacion.replace(/\x/g,1);
+
+  resultado = math.eval(ecuacionStr);
+
+  if(typeof(resultado) === 'number'){
+
+    console.log("si furula");
+
+    ecuacionDef = document.getElementById("ecuacion").value;
+
+    //habilitamos el acceso a la grafica
+    sideMenu.innerHTML = '<li><a href="#"><i class="fa fa-user fa-fw"></i>Biseccion</a></li><li><a href="grafica.html"><i class="fa fa-user fa-fw"></i>Grafica</a></li>';
+
+    localStorage.setItem("ecuacion",ecuacionDef);
+
+  }
+  else{
+
+    console.log("no furula");
+
+    ecuacionDef = "";
+
+    //deshabilitamos el acceso a la grafica
+    sideMenu.innerHTML = '<li><a href="#"><i class="fa fa-user fa-fw"></i>Biseccion</a></li><li><a class="isDisabled" href=""><i class="fa fa-user fa-fw"></i>Grafica</a></li>';
+
+  }
+
 
 
 }
@@ -24,32 +65,39 @@ function Ejecutar(){
  _Bn = document.getElementById("Bn").value;
  _es = document.getElementById("es").value;
  _imax = document.getElementById("imax").value;
+ 
+
+
+
 //convertimos las cadenas de texto a valores numericos
  var An = parseFloat(_An);
  var Bn = parseFloat(_Bn);
  var es = parseFloat(_es);
  var imax = parseFloat(_imax);
 
- if(_An != "" && _Bn != "" && es > 0 && imax > 0){ //si se completaron todos los datos, entonces haremos la biseccion
+ console.log(ecuacionDef);
+
+ if(_An != "" && _Bn != "" && es > 0 && imax > 0 && ecuacionDef != ""){ //si se completaron todos los datos, entonces haremos la biseccion
 
 Bisceccion(An,Bn,es,imax);
 
  }
 else{ //sino, mostraremos un mensaje de alerta
 
-  informacion.innerHTML = '<div class="alert alert-danger text-center col-lg-12 bannerInfo"><strong>Asegurese de introducir datos validos!</strong><p>Tenga en cuenta:</p><p>-> Haber llenado todos los campos</p><p>-> El error sea mayor que cero</p><p>-> Escoger un numero razonable de iteraciones</p></div>';
+  informacion.innerHTML = '<div class="alert alert-danger text-center col-lg-12 bannerInfo"><strong>Asegurese de introducir datos validos!</strong><p>Tenga en cuenta:</p><p>-> Haber llenado todos los campos</p><p>-> Haber ingresado una ecuacion adecuada</p><p>-> El error sea mayor que cero</p><p>-> Escoger un numero razonable de iteraciones</p></div>';
 
 }
 
 
-
 }
+
 
 function Bisceccion(An, Bn, es, imax)
 {
 var Tabla = "";
 var _res = "";
 var Infor = '<div class="alert alert-success text-center col-lg-12 bannerInfo"><strong>Se encontraron resultados!</strong></div>'
+
 //An es el inicio del intervalo
 //Bn es el final del intervalo
 //P_ant es valor aproximado anterior. Solo se usa para sacar el error (relativo y abs)
@@ -108,11 +156,10 @@ if(ecuacion(Pn)<=-0.01 || ecuacion(Pn)>=0.01){ // si no se llega ni cerca de un 
 
 Infor = '<div class="alert alert-warning text-center col-lg-12 bannerInfo"><strong>No se encuentra ninguna raiz en el intervalo dado!</strong><p>Consulte la grafica de la funcion para escoger un intervalo adecuado</p></div>';
 
-
 }
 else{ // si se llego a un cero, generamos resultados con la info obtenida
 
-_res = generarRes(Pn,ea,n,"x^2 - 3x - 4");
+_res = generarRes(Pn,ea,n,ecuacionDef);
 
 }
 
@@ -123,11 +170,18 @@ res.innerHTML = _res;
 
 
 
+
 }
 
 function ecuacion(x){ //En e3ta funci6n 3e pone la ecuacion 
 
-  return ((x*x) - (3*x) - 4);
+var value = x;
+
+var ecuacionStr = ecuacionDef.replace(/\x/g,value); //se usa /\x/g para reemplazar globalmente todas las coincidencias
+
+resultado = math.eval(ecuacionStr);
+
+  return resultado;  //aqui hay otra f(x)
 }
 
 function anadirLinea(n, An, Bn, Pn, Fn, ER){

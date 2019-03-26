@@ -1,22 +1,40 @@
 //Flot Line Chart
+
+var lol = localStorage.getItem("ecuacion");
+
 $(document).ready(function() {
 
+    var cabecera = document.getElementById("cabecera");
+    cabecera.innerHTML = "A continuacion se presenta la grafica de f(x) = "+lol;
     var offset = 0;
+    console.log(lol);
     plot();
+    
+    function evaluar(i){
+
+        var value = i;
+
+        var ecuacionStr = lol.replace(/\x/g,value); //se usa /\x/g para reemplazar globalmente todas las coincidencias
+
+        resultado = math.eval(ecuacionStr);
+
+        console.log(ecuacionStr);
+        return resultado;
+    }
 
     function plot() {
         var f = [],
             ejex = [],
             ejey = [];
-        for (var i = -4; i < 12; i += 0.5) {
-            f.push([i, ((i*i) - (3*i) - 4)]);
+        for (var i = -8; i < 8; i += 0.5) {
+            f.push([i, (evaluar(i))]); // aqui hay una f(x)
         }
 
-        ejex.push([-4,0]);
-        ejex.push([12,0]);
+        ejex.push([-8,0]);
+        ejex.push([8,0]);
 
-        ejey.push([0,-7]);
-        ejey.push([0,7]);
+        ejey.push([0,-11]);
+        ejey.push([0,11]);
 
         var options = {
             series: {
@@ -31,8 +49,8 @@ $(document).ready(function() {
                 hoverable: true //IMPORTANT! this is needed for tooltip to work
             },
             yaxis: {
-                min: -7,
-                max: 7
+                min: -11,
+                max: 11
             },
             tooltip: true,
             tooltipOpts: {
