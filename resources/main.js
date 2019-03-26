@@ -1,10 +1,16 @@
 window.onload = iniciar;
+//Karlamejia1027@gmail.com, correo de la lic xd
 
 var tablaMostrar;
 var informacion;
 var res;
 var sideMenu;
 var EspGrafica;
+
+var tablaMostrar;//tabla donde pondremos las iteraciones
+var informacion;//cuadro de dialogo de advertencias e informacion
+var res;//espacio para mostrar los resultados
+
 
 var _An;
 var _Bn;
@@ -182,8 +188,8 @@ resultado = math.eval(ecuacionStr);
   return resultado;  //aqui hay otra f(x)
 }
 
-function anadirLinea(n, An, Bn, Pn, Fn, ER){
-
+function anadirLinea(n, An, Bn, Pn, Fn, ER){//esta funcion añade una linea para la tabla
+//fue creada con el fin de encapsular y no hacer tanto bulto xd
   var linea = 
   "<tr>"+
     "<td>"+n+"</td>"+
@@ -198,7 +204,7 @@ return linea;
 
 }
 
-function generarRes(Pn,ER,n,ecuacion){
+function generarRes(Pn,ER,n,ecuacion){//genera campos con los resultados
 
   var resultados = 
   '<div class="col-xs-3">'+
