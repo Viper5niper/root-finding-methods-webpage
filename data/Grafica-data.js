@@ -9,6 +9,12 @@ $(document).ready(function() {
     var offset = 0;
     console.log(lol);
     plot();
+
+    $('#btn-agregar').click(function() { //no hace falta que validemos, porque la ecuacion no cambiara mientras no se ingrese algo bueno
+        lol = localStorage.getItem("ecuacion");
+        cabecera.innerHTML = "A continuacion se presenta la grafica de f(x) = "+lol;
+        plot();
+      });
     
     function evaluar(i){
 
@@ -23,6 +29,7 @@ $(document).ready(function() {
     }
 
     function plot() {
+
         var f = [],
             ejex = [],
             ejey = [];

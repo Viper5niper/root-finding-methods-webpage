@@ -4,6 +4,7 @@ var tablaMostrar;
 var informacion;
 var res;
 var sideMenu;
+var EspGrafica;
 
 var _An;
 var _Bn;
@@ -21,6 +22,8 @@ function iniciar(){
  informacion = document.getElementById("informacion");
  res = document.getElementById("res");
  sideMenu = document.getElementById("side-menu");
+ EspGrafica = document.getElementById("EspacioGrafica");
+
 
 }
 
@@ -38,9 +41,6 @@ function AgregarFuncion(){ // ya funciona. Valida que la funcion sea prospera y 
 
     ecuacionDef = document.getElementById("ecuacion").value;
 
-    //habilitamos el acceso a la grafica
-    sideMenu.innerHTML = '<li><a href="#"><i class="fa fa-user fa-fw"></i>Biseccion</a></li><li><a href="grafica.html"><i class="fa fa-user fa-fw"></i>Grafica</a></li>';
-
     localStorage.setItem("ecuacion",ecuacionDef);
 
   }
@@ -50,9 +50,7 @@ function AgregarFuncion(){ // ya funciona. Valida que la funcion sea prospera y 
 
     ecuacionDef = "";
 
-    //deshabilitamos el acceso a la grafica
-    sideMenu.innerHTML = '<li><a href="#"><i class="fa fa-user fa-fw"></i>Biseccion</a></li><li><a class="isDisabled" href=""><i class="fa fa-user fa-fw"></i>Grafica</a></li>';
-
+    console.log("La grafica no es valida!");
   }
 
 

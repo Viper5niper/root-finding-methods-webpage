@@ -59,9 +59,6 @@
                         <li>
                             <a href="#"><i class="fa fa-user fa-fw"></i>Biseccion</a>
                         </li>
-                        <li>
-                            <a class="isDisabled" href=""><i class="fa fa-user fa-fw"></i>Grafica</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -76,12 +73,31 @@
                     <div class="alert alert-info text-center col-lg-12 bannerInfo">
                       <strong>Bienvenid@! Por favor, llene los campos correspondientes para continuar.</strong>
                       <p>Presione "<i class="glyphicon glyphicon-ok"></i>" cuando haya llenado todos los campos</p>
-                      <p>Al ingresar una funcion correcta, se habilitara el apartado "<strong>Grafica</strong>"</p>
-                      <p>Puede consultar posibles intervalos de biseccion ahi.</p>
-                      <p>Consulte el boton "ayuda" si desea mas informacion.</p>
+                      <p>Presione "<i class="glyphicon glyphicon-plus"></i>" para añadir una ecuacion. Se generara una grafica, puede consultar posibles intervalos de biseccion ahi. Si esta grafica no aparece, intente recargar la pagina e ingresar nuevamente</p>
+                      <p>Si Surgen errores constantemente, consulte el boton de <strong>ayuda</strong>.</p>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
+            </div>
+
+            <!--Cosas de grafica-->
+            <div class="row" id="EspacioGrafica"> 
+                
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="cabecera">
+                            
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-line-chart">
+                                
+                            </div>
+                        </div>
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!-- /.col-lg-12 -->
+                
+
             </div>
 
             <div class="row">
@@ -224,12 +240,31 @@
                     <!-- cuerpo del diálogo -->
                     <div class="modal-body">
                             <div class="form-group">
+                            <h4>Bienvenido!</h4>
+                            <p>Este sistema fue diseñado para graficar funciones, y hacer uso del metodo de biseccion. Puede encontrarse errores poco convencionales, pero este recuadro de ayuda le puede servir.</p>
+                            <p>El programa funciona perfecto en el navegador mozila firefox, pero tiene algunos problemas en navegadores como internet explorer, se recomienda usar firefox.</p>
+                            <p>La grafica podria no mostrarse al principio, aun despues de insertar la funcion. Recargue la pagina, si eso no funciona, mas abajo se especifica como insertar funciones.</p>
+                            <p>Los elementos se encuentran de esta manera</p>
+                            <ul>
+                                <li>Cuadro de informacion: brinda informacion inicial, especifica errores y advertencias.</li>
+                                <li>Grafica de la funcion: cuadro de 16x20 digitos, muestra la funcion</li>
+                                <li>Campos para ingresar: Aqui puede ingresar la funcion y los datos requeridos por el metodo de biseccion</li>
+                                <li>Dialogo de resultados: Aqui se mostraran los resultados. Aqui se encontraran tambien las iteraciones realizadas por el programa para llegar a tales resultados</li>
+                            </ul>
+                            <br>
                             <h4>Insertando funciones </h4>
-                            <p>La grafica y la obtencion de datos puede diferir dependiendo de como se escriba la funcion. La funcion solo sera reconocida si se escribe en terminos de "x". Se recomienda escribir (x)^n para exponentes, como si de una calculadora convencional se tratase. Si no se usa el parentesis asì, se obtendran resultados negativos sin importar el exponente. Al mismo tiempo puede escribir raices de esta manera: (x)^(1/2) para raiz cuadrada, por ejemplo. Al involucrar un producto debemos agregar el signo de multiplicacion "*" asi: 3*x. Al mismo tiempo, si se desea involucrar a varios elementos en una sola operacion, hacer uso eficiente de los parentesis asi: (x + 3*x)/20.</p>
+                            <p>La grafica y la obtencion de datos puede diferir dependiendo de como se escriba la funcion. La funcion solo sera reconocida si se escribe en terminos de "x" (minuscula). Se recomienda escribir (x)^n para exponentes, como si de una calculadora convencional se tratase. Si no se usa el parentesis asì, se obtendran resultados negativos sin importar el exponente. Al mismo tiempo puede escribir raices de esta manera: (x)^(1/2) para raiz cuadrada, por ejemplo. Al involucrar un producto debemos agregar el signo de multiplicacion "*" asi: 3*x. Al mismo tiempo, si se desea involucrar a varios elementos en una sola operacion, hacer uso eficiente de los parentesis asi: (x + 3*x)/20.</p>
                             <p>Las funciones trigonometricas son reconocidas asi: cos(x), sen(x), etc. Por favor no olvidar la importancia de el uso de parentesis. En cuanto a sumas y restas, simplemente agregue el signo.</p>
-                            <p>Solo se podra acceder a "grafica" si se obtiene una funcion adecuada y reconocida por el codigo</p>
-                            
-
+                            <br>
+                            <h4>Usando el Metodo de Biseccion</h4>
+                            <p>El metodo de biseccion consiste en "hacer sandwiches" hasta llegar al punto donde la funcion se hace cero</p>
+                            <img src="images/biseccion.gif"/>
+                            <p>Por eso es importante pensar bien que intervalo usar para "hacer sandwiches".
+                            A partir de la grafica, puede ver donde las funciones se vuelven cero. Seria practico elegir un intervalo adecuado, o no encotrara una raiz nunca.</p>
+                            <p>El error relativo o tolerancia se refiere a que tanta incerteza acepta en su respuesta. Por ejemplo, un 0.01% de error (0.00001 en decimales). El programa tomara solamente numeros decimales (0.0001 por ejm)</p>
+                            <p>El numero maximo de iteraciones se refiere a cuantas veces "haremos sandwiches xd" en caso de no llegar al error deseado. Esto limita al programa a no hacer un sinfin de iteraciones si el error variara demasiado.</p>
+                            <p>Si en el intervalo que usted escogio se encuentran dos raices de f(x), el programa llegara a la primer raiz (de izq. a der.)</p>
+                            <p><strong>Ruben Mulato MG17004</strong></p>
                             </div> 
                     </div>
 
@@ -258,9 +293,10 @@
                     <div class="modal-body">
                             <div class="form-group">
                             <strong>Metodo de Biseccion, Analisis Numerico, ciclo I 2019</strong>
-                            <p>Creado y subido a la maravillosa internet por Ruben Mulato, carnet MG17004. Este programa fue creado con sangre sudor y lagrimas de un estudiante promedio xd, es libre de usar cualquier codigo contenido, pero por favor brindar el respectivo credito al usar cualquiera de sus partes.</p>
-                            <p>Cualquier duda o consulta, ya sabes chepe :v, rubenmulato99@gmail.com</p>
-                            <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook" href=""></i></a>
+                            <p>Creado y subido a la maravillosa internet por Ruben Mulato, carnet MG17004.</p>
+                            <p>En la creacion de este programa se uso html y javascript, sbAdmin para el estilo de la pagina web, flot.js como libreria para generar graficas, math.js para el reconocimiento de ecuaciones, y el pseudocodigo encontrado en Analisis Numerico de Chapra</p>
+                            <p>Cualquier consulta me puede encontrar en <strong>facebook -> <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/AlexViper"><i class="fa fa-facebook"></i></a></strong> </p>
+                            
                             </div> 
                     </div>
 
@@ -307,6 +343,13 @@
     });*/ 
     </script>
 
+    <!-- Flot Charts JavaScript -->
+    <script src="vendor/flot/excanvas.min.js"></script>
+    <script src="vendor/flot/jquery.flot.js"></script>
+    <script src="vendor/flot/jquery.flot.pie.js"></script>
+    <script src="vendor/flot/jquery.flot.resize.js"></script>
+    <script src="vendor/flot/jquery.flot.time.js"></script>
+    <script src="vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
 
 </body>
 
