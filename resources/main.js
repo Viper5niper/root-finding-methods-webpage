@@ -21,6 +21,8 @@ var ecuacionDef; //la ecuacion definitiva que usaremos
 
 function iniciar(){
 
+  localStorage.setItem("ecuacion","(x)^2 - 3*x - 4");
+
   //console.log(math.eval('(cos('+0+'))')); // i will just leave this stuff
   //special thanks to math.js
  
