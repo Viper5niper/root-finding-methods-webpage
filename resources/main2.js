@@ -1,25 +1,22 @@
 window.onload = iniciar;
 //Karlamejia1027@gmail.com, correo de la lic xd
 
-var tablaMostrar;
-var informacion;
-var res;
-var sideMenu;
 var EspGrafica;
-
 var tablaMostrar;//tabla donde pondremos las iteraciones
 var informacion;//cuadro de dialogo de advertencias e informacion
 var res;//espacio para mostrar los resultados
 
-
-var _An;
-var _Bn;
-var _es;
-var _imax;
 var _ecuacion;
-var ecuacionDef = "(x)^2 - 3*x - 4"; //la ecuacion definitiva que usaremos
+var _GdeX;
+var _Derivada;   //hace falta aplicar el algoritmo y personalizar el ingreso de datos
+
+var DefaultEq = "(e)^(-x)"
+
+var ecuacionDef = DefaultEq; //la ecuacion definitiva que usaremos
 
 function iniciar(){
+
+//  localStorage.setItem("ecuacion","(x)^2 - 3*x - 4");
 
   //console.log(math.eval('(cos('+0+'))')); // i will just leave this stuff
   //special thanks to math.js
@@ -27,35 +24,44 @@ function iniciar(){
  tablaMostrar = document.getElementById("tablaFB");
  informacion = document.getElementById("informacion");
  res = document.getElementById("res");
- sideMenu = document.getElementById("side-menu");
  EspGrafica = document.getElementById("EspacioGrafica");
-
-    swal("Nuevas funciones!","Ahora hay notificaciones en tiempo real, y se añadio el apartado del metodo de punto fijo!.","info");
 
 }
 
-function AgregarFuncion(){ // ya funciona. Valida que la funcion sea prospera y bonita
+
+function AgregarFunciones(){ // ya funciona. Valida que la funcion sea prospera y bonita
 
   _ecuacion = document.getElementById("ecuacion").value;
+ _GdeX = document.getElementById("GdeX").value;
+ _Derivada = math.derivative(_GdeX,'x').toString();
 
   var ecuacionStr = _ecuacion.replace(/\x/g,1);
+  var GdeXStr = _GdeX.replace(/\x/g,1);
+  var DerivadaStr = _Derivada.replace(/\x/g,1);
 
-  if(math.eval(ecuacionStr)){
+  var EvalEcuacion = math.eval(ecuacionStr);
+  var EvalGdeX = math.eval(GdeXStr);
+  var EvalDerivada = math.eval(DerivadaStr);
 
-    swal("Ecuacion Insertada","La ecuacion fue añadida con exito, revise la grafica","success");
+  console.log(_Derivada);
 
-    ecuacionDef = document.getElementById("ecuacion").value;
+  if(typeof(EvalEcuacion) === 'number' && typeof(EvalDerivada) === 'number' && typeof(EvalGdeX) === 'number'){
+
+    swal("Ecuaciones Insertadas","Las ecuaciones fueron añadidas con exito, revise la grafica.","success");
+
+    ecuacionDef = document.getElementById("GdeX").value;
+    document.getElementById("Derivada").value = _Derivada;
 
     //localStorage.setItem("ecuacion",ecuacionDef);
 
   }
   else{
 
-    swal("Ecuacion invalida!","Revise la ecuacion, puede ver mas sugerencias en el apartado de 'ayuda'","error");
+    swal("Ecuaciones invalidas!","Revise la ecuacion, puede ver mas sugerencias en el apartado de 'ayuda'","error");
 
-    ecuacionDef = "";
+    ecuacionDef = DefaultEq;
+    document.getElementById("Derivada").value ="-";
 
-    console.log("La grafica no es valida!");
   }
 
 
@@ -64,43 +70,46 @@ function AgregarFuncion(){ // ya funciona. Valida que la funcion sea prospera y 
 
 function Ejecutar(){
 //tomamos todos los valores necesarios
- _An = document.getElementById("An").value;
- _Bn = document.getElementById("Bn").value;
- _es = document.getElementById("es").value;
- _imax = document.getElementById("imax").value;
- 
 
+ var _Xi = document.getElementById("Vi").value;
+ var _es = document.getElementById("es").value;
+ var _imax = document.getElementById("imax").value;
 
 
 //convertimos las cadenas de texto a valores numericos
- var An = parseFloat(_An);
- var Bn = parseFloat(_Bn);
+ var Xi = parseFloat(_Xi);
  var es = parseFloat(_es);
  var imax = parseFloat(_imax);
 
- console.log(ecuacionDef);
+ console.log(_Xi + "-" + es + "-" + imax);
 
- if(_An != "" && _Bn != "" && es > 0 && imax > 0 && ecuacionDef != ""){ //si se completaron todos los datos, entonces haremos la biseccion
+ if(_Xi != "" && es > 0 && imax > 0 && ecuacionDef != "" && _ecuacion != ""){ //si se completaron todos los datos, entonces haremos la biseccion
 
-Bisceccion(An,Bn,es,imax);
+var confianza = ecuacion(Xi,_Derivada);
 
- }
+    if(confianza < 1 && confianza > -1){
+    PuntoFijo(Xi,es,imax);
+    }else{
+    swal("La prueba de punto fijo divergera!","La derivada de la funcion nos dice que divergera!. Elija otro punto inicial, o utilice el metodo de biseccion.","warning");
+    }
+
+}
 else{ //sino, mostraremos un mensaje de alerta
 
   informacion.innerHTML = '<div class="alert alert-danger text-center col-lg-12 bannerInfo"><strong>Asegurese de introducir datos validos!</strong><p>Tenga en cuenta:</p><p>-> Haber llenado todos los campos</p><p>-> Haber ingresado una ecuacion adecuada</p><p>-> El error sea mayor que cero</p><p>-> Escoger un numero razonable de iteraciones</p></div>';
+
   swal("Datos invalidos!","Revise los datos ingresados, puede ver mas sugerencias en el apartado de 'ayuda'","error");
-
 }
 
 
 }
 
 
-function Bisceccion(An, Bn, es, imax)
+function PuntoFijo(Xi, es, imax)
 {
 var Tabla = "";
 var _res = "";
-var Infor = '<div class="alert alert-success text-center col-lg-12 bannerInfo"><strong>Se encontraron resultados!</strong></div>'
+var Infor = '<div class="alert alert-success text-center col-lg-12 bannerInfo"><strong>Se encontraron resultados!</strong></div>';
 
 //An es el inicio del intervalo
 //Bn es el final del intervalo
@@ -112,65 +121,45 @@ var Infor = '<div class="alert alert-success text-center col-lg-12 bannerInfo"><
 //ea es el error que se encuentra en cada iteracion
 
 var n = 0;
-var Pn = (An + Bn)/2;
+var X = Xi;
+var Xant;
 var ea = 100;
-var P_ant;
-var fn;
-var test;
-var fi = ecuacion(An); //guardamos la primera evaluacion para mas tarde
 
 do{ //el algoritmo funciona perfecto xd
 
-P_ant = Pn; //guardamos la aproximacion actual
-Pn = (An + Bn)/2; //encontramos Pn
-fn = ecuacion(Pn); //evaluamos la funcion en Pn
+Xant = X; //guardamos el valor actual
+X = ecuacion(X,ecuacionDef); //encontramos una X nueva
 
-n++; //le añadimos al iterador xd
+n++;
 
 if(n>1){
 
-ea = (Math.abs((Pn - P_ant)/Pn) * 100); //encontramos el valor absoluto con la P anterior
+ea = (Math.abs((X - Xant)/X) * 100); //encontramos el valor absoluto con la P anterior
 
-Tabla += anadirLinea(n,An,Bn,Pn,fn,ea); //si ya hay un error relativo existente, lo añadimos a la tabla
+Tabla += anadirLinea(n,Xant,X,ea); //si ya hay un error relativo existente, lo añadimos a la tabla
 
 }
 else{
 
-Tabla += anadirLinea(n,An,Bn,Pn,fn,"- ");//si no lo hay, pues ni maiz.
+Tabla += anadirLinea(n,Xant,X,"- ");//si no lo hay, pues ni maiz.
 
 }
-
-test = (fi*fn);//buscamos el signo que domina
-
-if(test<0)
-{Bn = Pn;}//si el signo es negativo, Bn sera Pn xd
-
-else if(test>0){
-  An = Pn; 
-  fi = fn;
-}//sino, An sera Pn
-
-else if(test == 0)
-{ea = 0;}//si es cero, entonces ya llegamos a nuestro resultado.
 
 
 } while (n <= imax && ea > es);
 
-if(ecuacion(Pn)<=-0.01 || ecuacion(Pn)>=0.01){ // si no se llega ni cerca de un cero, entonces mandamos una alerta
+if(ecuacion(X,_ecuacion)<=-0.01 || ecuacion(X,_ecuacion)>=0.01){ // si no se llega ni cerca de un cero, entonces mandamos una alerta
 
 Infor = '<div class="alert alert-warning text-center col-lg-12 bannerInfo"><strong>No se encuentra ninguna raiz en el intervalo dado!</strong><p>Consulte la grafica de la funcion para escoger un intervalo adecuado</p></div>';
-
-swal("No se encontro una raiz!","La funcion no tiene raiz en el intervalo dado!, revise la grafica.","warning");
 
 }
 else{ // si se llego a un cero, generamos resultados con la info obtenida
 
-_res = generarRes(Pn,ea,n,ecuacionDef);
+_res = generarRes(X,ea,n,_ecuacion);
 
 swal("Se encontro una raiz!","El programa genero resultados con exito!","success");
 
 }
-
 
 tablaMostrar.innerHTML = Tabla; //añadimos todos los datos a la tabla
 informacion.innerHTML = Infor; // mostramos un mensajito
@@ -182,40 +171,38 @@ res.innerHTML = _res;
 
 }
 
-function ecuacion(x){ //En e3ta funci6n 3e pone la ecuacion 
+function ecuacion(x,EcuaStr){ //En e3ta funci6n 3e pone la ecuacion 
 
 var value = x;
 
-var ecuacionStr = ecuacionDef.replace(/\x/g,value); //se usa /\x/g para reemplazar globalmente todas las coincidencias
+var ecuacionStr = EcuaStr.replace(/\x/g,value); //se usa /\x/g para reemplazar globalmente todas las coincidencias
 
 resultado = math.eval(ecuacionStr);
 
   return resultado;  //aqui hay otra f(x)
 }
 
-function anadirLinea(n, An, Bn, Pn, Fn, ER){//esta funcion añade una linea para la tabla
+function anadirLinea(n,X,fx,ER){//esta funcion añade una linea para la tabla
 //fue creada con el fin de encapsular y no hacer tanto bulto xd
   var linea = 
   "<tr>"+
     "<td>"+n+"</td>"+
-    "<td>"+An+"</td>"+
-    "<td>"+Bn+"</td>"+
-    "<td>"+Pn+"</td>"+
-    "<td>"+Fn+"</td>"+
-    "<td>"+ER+"%</td>"+
+    "<td>"+X+"</td>"+
+    "<td>"+fx+"</td>"+
+    "<td>"+ER+"</td>"+
   "</tr>";
 
 return linea;
 
 }
 
-function generarRes(Pn,ER,n,ecuacion){//genera campos con los resultados
+function generarRes(X,ER,n,ecuacion){//genera campos con los resultados
 
   var resultados = 
   '<div class="col-xs-3">'+
           '<div class="form-group">'+
               '<label>Raiz Encontrada:</label>'+
-              '<input class="form-control" value="'+Pn+'" readonly>'+
+              '<input class="form-control" value="'+X+'" readonly>'+
           '</div>'+
   '</div>'+
 
