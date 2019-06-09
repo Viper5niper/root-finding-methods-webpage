@@ -7,6 +7,16 @@
     <meta name="description" content="Calcular raices por medio del metodo de Biseccion">
     <meta name="author" content="Ruben Mulato">
     <title>Metodo de Biseccion, Analisis Numerico</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="mdl/material.min.css">
+
+    <link rel="stylesheet" href="dist/css/tamano.css">
+
+    
+    <!-- material design -->
+
+
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -67,6 +77,45 @@
         </nav>
 
         <div id="page-wrapper">
+
+            <div class="row">
+                
+            <span><strong>Z = </strong></span>
+
+
+                <div class="mdl-textfield mdl-js-textfield smol">
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
+                <label class="mdl-textfield__label" for="sample2"></label>
+                <span class="mdl-textfield__error"></span>
+              </div>
+              <span>X1 +</span>
+              
+               <div class="mdl-textfield mdl-js-textfield smol">
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
+                <label class="mdl-textfield__label" for="sample2"></label>
+                <span class="mdl-textfield__error"></span>
+                
+              </div>
+              <span>X1</span>
+
+               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label smol">
+                <select class="mdl-textfield__input" id="octane" name="octane">
+                  <option></option>
+                  <option value="85">=</option>
+                  <option value="87"><=</option>
+                  <option value="89">>=</option>
+                </select>
+                <label class="mdl-textfield__label" for="octane">Signo</label>
+              </div>
+
+              <div class="mdl-textfield mdl-js-textfield smol">
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
+                <label class="mdl-textfield__label" for="sample2"></label>
+                <span class="mdl-textfield__error"></span>
+                
+              </div>
+
+            </div>
 
         </div>
         <!-- /#page-wrapper -->
@@ -144,6 +193,9 @@
     <script src="vendor/flot/jquery.flot.resize.js"></script>
     <script src="vendor/flot/jquery.flot.time.js"></script>
     <script src="vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+
+        <script src="mdl/material.min.js"></script>
+    <!--material design-->
 
 </body>
 

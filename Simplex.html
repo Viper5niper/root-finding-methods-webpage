@@ -7,6 +7,11 @@
     <meta name="description" content="Calcular raices por medio del metodo de Biseccion">
     <meta name="author" content="Ruben Mulato">
     <title>Metodo Simplex, Metodos de Optimizacion</title>
+
+    <link rel="stylesheet" href="mdl/material.min.css">
+    <link rel="stylesheet" href="dist/css/tamano.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -23,6 +28,11 @@
     <link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
     <link rel="stylesheet" href="dist/css/style.css">
     <link rel="stylesheet" href="dist/css/sweetalert.css">
+
+    
+    
+    <!-- material design -->
+
 </head>
 
 <body>
@@ -87,23 +97,48 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
 
-                            <h1>Hola</h1>                       
+                            <h4>Funcion Z</h4>  
+                            <p>Deslice para ajustar el numero de variables</p>                     
 
                             </div>
 
                             <div class="panel-body">
 
                                 <div class="slidecontainer">
-                                <input type="range" min="1" max="10" value="5" class="slider" id="myRange">
-                                <p class="help-block" id="demo">Variables en funcion Z = </p>
-                                </div>
+                    <input class="mdl-slider mdl-js-slider" type="range" min="1" max="9" value="5" id="RangoZ">
+                                <p class="help-block" id="demoZ">Variables en funcion Z : </p>
                                 
-                                <div id = "FuncionZ">
-                                    
-                                
+                                <input type="range" min="1" max="10" value="5" class="mdl-slider mdl-js-slider" id="RangoRest">
+                                <p class="help-block" id="demoRest">Numero de restricciones : </p>
 
                                 </div>
+                            
+                            <div id = "FuncionZ">
+                        
+                                <div class="row">
+                                    
+
+
+                                </div>
+                                   
+
+
+                                 
                             </div>
+
+
+                            <div class="row">
+                                    <div class="col-xs-3">
+                                    <strong>Sujeto a restricciones:</strong>
+                                    </div>
+                            </div>
+
+                            <div id = "Restricciones"> 
+
+
+                            </div>
+
+                        </div>
 
                             <!--Panel Body-->
                         </div>
@@ -167,7 +202,9 @@
     <script src="dist/js/math.js" charset="utf-8"></script>
     <script src="dist/js/math.min.js" charset="utf-8"></script>
 
-    <script src="resources/MainSimplex.js" charset="utf-8"></script>
+    <script src="resources/Inicio.js" charset="utf-8"></script>
+    <!-- Guarda todo acerca de los datos iniciales -->
+
     <script src="data/Grafica-data.js"></script>
 
     <!-- DataTables JavaScript -->
@@ -190,6 +227,9 @@
     <script src="vendor/flot/jquery.flot.resize.js"></script>
     <script src="vendor/flot/jquery.flot.time.js"></script>
     <script src="vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+
+    <script src="mdl/material.min.js"></script>
+    <!--material design-->
 
 </body>
 
