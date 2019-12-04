@@ -44,10 +44,13 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#dialogo1" style="margin: 10px">Ayuda!</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dialogo3" onclick="cargarTabla();" style="margin: 5px"><i class="fa fa-history" aria-hidden="true"></i> Historial</button>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogo2" style="margin: 10px">Acerca de</button>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#dialogo1" style="margin: 5px">Ayuda!</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogo2" style="margin: 5px">Acerca de</button>
                 </li>
             </ul>
             <!-- /.navbar-top-links -->
@@ -57,10 +60,10 @@
                     <ul class="nav" id="side-menu">
                         
                         <li>
-                            <a href="index.html"><i class="fa fa-user fa-fw"></i>Biseccion</a>
+                            <a href="index.html"><i class="fa fa-bar-chart-o fa-fw"></i>Biseccion</a>
                         </li>
                         <li>
-                            <a href=""><i class="fa fa-user fa-fw"></i>Punto Fijo</a>
+                            <a href=""><i class="fa fa-bar-chart-o fa-fw"></i>Punto Fijo</a>
                         </li>
                     </ul>
                 </div>
@@ -106,7 +109,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="datos">
                         <div class="panel-heading">
                            <i class="glyphicon glyphicon-wrench"></i> Datos a utilizar.
                         </div>
@@ -114,7 +117,7 @@
                         <div class="panel-body">
 
                             <div class="row">
-                                <div class="col-xs-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Funcion a evaluar</label>
                                         <input class="form-control" placeholder="x - e^(-x)" id="ecuacion"> 
@@ -122,7 +125,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>g(x)</label>
                                         <input class="form-control" placeholder="e^(-x)" id="GdeX">
@@ -130,14 +133,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>g'(x)</label>
                                         <input class="form-control" placeholder="-(1 / e ^ x)" id="Derivada" readonly><p class="help-block">La derivada se generara cuando presione "<i class="glyphicon glyphicon-plus"></i>"</p>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-1">
+                                <div class="col-sm-1">
                                     <label></label>
                                     <button class="btn btn-primary form-control" id="btn-agregar" onclick="AgregarFunciones();">
                                     <i class="glyphicon glyphicon-plus"></i>
@@ -147,21 +150,21 @@
 
                             <div class="row">
 
-                                <div class="col-xs-2">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label>Valor inicial</label>
                                         <input class="form-control" placeholder="2, por ejm." id="Vi">
                                     </div>
                                 </div>
 
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Ingresa tolerancia</label>
                                         <input class="form-control" placeholder="Error maximo" id="es">
                                     </div>
                                 </div>
 
-                                <div class="col-xs-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Maximo de iteraciones</label>
                                         <input class="form-control" placeholder="Imax" id="imax">
@@ -169,7 +172,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-1">
+                                <div class="col-sm-1">
                                     <label></label>
                                     <button class="btn btn-success form-control" id="btn-agregar" onclick="Ejecutar();">
                                     <i class="glyphicon glyphicon-ok"></i>
@@ -204,6 +207,8 @@
 
                         </div>
 
+                        <div class="table-responsive">
+
                             <table class="table table-hover table-bordered" id="dataTables-example">
                                 <thead class="">
                                     <tr class="">
@@ -212,7 +217,7 @@
                                     <tr>
                                       <th>N</th>
                                       <th>X</th>
-                                      <th>f(x)</th>
+                                      <th>g(x)</th>
                                       <th>ER</th>
                                     </tr>
                                 </thead>
@@ -220,6 +225,9 @@
 
                                 </tbody>
                             </table>
+
+                        </div> <!-- table responsive-->
+
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -274,7 +282,7 @@
                             <p>El error relativo o tolerancia se refiere a que tanta incerteza acepta en su respuesta. Por ejemplo, un 0.01% de error (0.00001 en decimales). El programa tomara solamente numeros decimales (0.0001 por ejm)</p>
                             <p>El numero maximo de iteraciones se refiere a cuantas veces Se evaluara en caso de no llegar al error deseado. Esto limita al programa a no hacer un sinfin de iteraciones si el error variara demasiado.</p>
                             <p>Si se encuentra mas de una raiz de f(x), el programa llegara a la primer raiz (de izq. a der.) mas cercana al valor inicial dado</p>
-                            <p><strong>Ruben Mulato MG17004</strong></p>
+                            
                             </div> 
                     </div>
 
@@ -302,10 +310,10 @@
                     <!-- cuerpo del diálogo -->
                     <div class="modal-body">
                             <div class="form-group">
-                            <strong>Metodo de Punto Fijo, Analisis Numerico, ciclo I 2019</strong>
-                            <p>Creado y subido a la maravillosa internet por Ruben Mulato, carnet MG17004.</p>
+                        <strong>Metodo de Punto Fijo, Tecnicas de Programacion de internet, ciclo II 2019</strong>
+                            
                             <p>En la creacion de este programa se uso html y javascript, sbAdmin para el estilo de la pagina web, sweetAlert2 para generar notificaciones, flot.js como libreria para generar graficas, math.js para el reconocimiento y derivacion de ecuaciones, y el pseudocodigo encontrado en Analisis Numerico de Chapra</p>
-                            <p>Cualquier consulta me puede encontrar en <strong>facebook -> <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/AlexViper"><i class="fa fa-facebook"></i></a></strong> </p>
+                           
                             
                             </div> 
                     </div>
@@ -318,6 +326,62 @@
                 </div>
             </div>
     </div> 
+
+    <!--Modal 3: historial-->
+    <div class="modal fade" id="dialogo3">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- cabecera del diálogo -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Historial</h4>
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                    </div>
+
+                    <!-- cuerpo del diálogo -->
+                    <div class="modal-body">
+                    
+                    <div class="table-responsive">
+                            <table class="table -sm table-hover table-bordered " id="dataTables-example">
+                                <thead class="">
+                                    <tr class="">
+                                      <th colspan="7" class="text-center">Resultados de Biseccion</th>
+                                    </tr>
+                                    <tr>
+                                      <th>Ecuacion</th>
+                                      <th>Raiz</th>
+                                      <th>Error</th>
+                                      <th>Iteraciones</th>
+                                      <th><i class="fa fa-gear fa-spin" style="font-size:24px"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaHist">
+
+                                </tbody>
+                            </table>
+
+                        </div><!-- / table responsive -->       
+
+
+                    </div>
+
+                    <!-- pie del diálogo -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+    </div> 
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -337,6 +401,7 @@
     <script src="dist/js/math.js" charset="utf-8"></script>
     <script src="dist/js/math.min.js" charset="utf-8"></script>
 
+    <script src="resources/histPuntoFijo.js" charset="utf-8"></script>
     <script src="resources/main2.js" charset="utf-8"></script>
     <script src="data/GraficaPuntoFijo-data.js"></script>
 
