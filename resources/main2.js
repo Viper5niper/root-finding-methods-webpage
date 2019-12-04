@@ -1,6 +1,21 @@
 window.onload = iniciar;
 //Karlamejia1027@gmail.com, correo de la lic xd
 
+var firebaseConfig = {
+  apiKey: "AIzaSyAXgVqki8x1AQGnevwEcW28bzVwXV6yiy4",
+  authDomain: "metnumeriocos.firebaseapp.com",
+  databaseURL: "https://metnumeriocos.firebaseio.com",
+  projectId: "metnumeriocos",
+  storageBucket: "metnumeriocos.appspot.com",
+  messagingSenderId: "162445858871",
+  appId: "1:162445858871:web:035c9de5182dbce9f2c7b2",
+  measurementId: "G-83LJ4CW1C1"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+
 var EspGrafica;
 var tablaMostrar;//tabla donde pondremos las iteraciones
 var informacion;//cuadro de dialogo de advertencias e informacion
@@ -28,6 +43,35 @@ function iniciar(){
 
 }
 
+
+function arrayJSON(ecuacion, GdeX, raiz, err, iter, vi, tol, iterM){
+
+  var EnviarBD = {
+    ecuacion: ecuacion,
+    GdeX: GdeX,
+    raiz: raiz,
+    error: err,  
+    iter: iter,
+    valorInicial: vi,
+    tolerancia: tol,
+    iterMax: iterM,
+
+  }
+
+  return EnviarBD;
+}
+
+function agregarBD(JSONarray){
+
+  var aux;
+
+  const db = firebase.database();
+  const refOperaciones = db.ref().child("PuntoFijo"); //tomamos una referencia hacia "biseccion"
+
+  var operacion = db.ref("PuntoFijo/" + ecuacionDef);
+   operacion.set(JSONarray);
+  
+}
 
 function AgregarFunciones(){ // ya funciona. Valida que la funcion sea prospera y bonita
 
@@ -159,6 +203,10 @@ _res = generarRes(X,ea,n,_ecuacion);
 
 swal("Se encontro una raiz!","El programa genero resultados con exito!","success");
 
+var arrayData = arrayJSON(_ecuacion,_GdeX,X,ea,n,Xi,es,imax);
+
+agregarBD(arrayData);
+
 }
 
 tablaMostrar.innerHTML = Tabla; //añadimos todos los datos a la tabla
@@ -199,28 +247,28 @@ return linea;
 function generarRes(X,ER,n,ecuacion){//genera campos con los resultados
 
   var resultados = 
-  '<div class="col-xs-3">'+
+  '<div class="col-sm-3">'+
           '<div class="form-group">'+
               '<label>Raiz Encontrada:</label>'+
               '<input class="form-control" value="'+X+'" readonly>'+
           '</div>'+
   '</div>'+
 
-  '<div class="col-xs-3">'+
+  '<div class="col-sm-3">'+
      '<div class="form-group">'+
           '<label>Error Relativo:</label>'+
           '<input class="form-control" value="'+ER+'" readonly>'+
       '</div>'+
   '</div>'+
 
-  '<div class="col-xs-2">'+
+  '<div class="col-sm-2">'+
       '<div class="form-group">'+
           '<label>Iteraciones:</label>'+
           '<input class="form-control" value="'+n+'" readonly>'+
       '</div>'+
   '</div>'+
 
-  '<div class="col-xs-4">'+
+  '<div class="col-sm-4">'+
       '<div class="form-group">'+
           '<label>Funcion utilizada:</label>'+
           '<input class="form-control" value="'+ecuacion+'" readonly>'+

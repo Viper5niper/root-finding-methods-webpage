@@ -1,6 +1,23 @@
 window.onload = iniciar;
 //Karlamejia1027@gmail.com, correo de la lic xd
 
+ // Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyAXgVqki8x1AQGnevwEcW28bzVwXV6yiy4",
+  authDomain: "metnumeriocos.firebaseapp.com",
+  databaseURL: "https://metnumeriocos.firebaseio.com",
+  projectId: "metnumeriocos",
+  storageBucket: "metnumeriocos.appspot.com",
+  messagingSenderId: "162445858871",
+  appId: "1:162445858871:web:035c9de5182dbce9f2c7b2",
+  measurementId: "G-83LJ4CW1C1"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+
+
 var tablaMostrar;
 var informacion;
 var res;
@@ -19,6 +36,37 @@ var _imax;
 var _ecuacion;
 var ecuacionDef = "(x)^2 - 3*x - 4"; //la ecuacion definitiva que usaremos
 
+function arrayJSON(ecuacion, Pn, err, iter, An, Bn, tol, iterM){
+
+  var EnviarBD = {
+    ecuacion: ecuacion,
+    raiz: Pn,
+    error: err, 
+    iter: iter,
+
+    intervalo: {
+      inicio: An,
+      fin: Bn
+    },
+
+    tolerancia: tol,
+    iterMax: iterM,
+
+  }
+
+  return EnviarBD;
+}
+
+function agregarBD(JSONarray){
+
+  const db = firebase.database();
+  const refOperaciones = db.ref().child("Biseccion"); //tomamos una referencia hacia "biseccion"
+
+  var operacion = db.ref("Biseccion/" + ecuacionDef);
+   operacion.set(JSONarray);
+  
+}
+
 function iniciar(){
 
   //console.log(math.eval('(cos('+0+'))')); // i will just leave this stuff
@@ -30,7 +78,7 @@ function iniciar(){
  sideMenu = document.getElementById("side-menu");
  EspGrafica = document.getElementById("EspacioGrafica");
 
-    swal("Nuevas funciones!","Ahora hay notificaciones en tiempo real, y se añadio el apartado del metodo de punto fijo!.","info");
+    //swal("Nuevas funciones!","Ahora hay notificaciones en tiempo real, y se añadio el apartado del metodo de punto fijo!.","info");
 
 }
 
@@ -70,15 +118,13 @@ function Ejecutar(){
  _imax = document.getElementById("imax").value;
  
 
-
-
 //convertimos las cadenas de texto a valores numericos
  var An = parseFloat(_An);
  var Bn = parseFloat(_Bn);
  var es = parseFloat(_es);
  var imax = parseFloat(_imax);
 
- console.log(ecuacionDef);
+ //console.log(ecuacionDef);
 
  if(_An != "" && _Bn != "" && es > 0 && imax > 0 && ecuacionDef != ""){ //si se completaron todos los datos, entonces haremos la biseccion
 
@@ -118,6 +164,9 @@ var P_ant;
 var fn;
 var test;
 var fi = ecuacion(An); //guardamos la primera evaluacion para mas tarde
+
+var auxAn = An;//solo para subir el intervalo a la base de datos
+var auxBn = Bn;
 
 do{ //el algoritmo funciona perfecto xd
 
@@ -162,12 +211,20 @@ Infor = '<div class="alert alert-warning text-center col-lg-12 bannerInfo"><stro
 
 swal("No se encontro una raiz!","La funcion no tiene raiz en el intervalo dado!, revise la grafica.","warning");
 
+
+
 }
 else{ // si se llego a un cero, generamos resultados con la info obtenida
 
 _res = generarRes(Pn,ea,n,ecuacionDef);
 
 swal("Se encontro una raiz!","El programa genero resultados con exito!","success");
+//console.log(ecuacion(Pn));
+
+/* Agregamos los resultados a la base de datos*/
+var arrayData = arrayJSON(ecuacionDef,Pn,ea,n,auxAn,auxBn,es,imax);
+
+agregarBD(arrayData);
 
 }
 
@@ -175,9 +232,6 @@ swal("Se encontro una raiz!","El programa genero resultados con exito!","success
 tablaMostrar.innerHTML = Tabla; //añadimos todos los datos a la tabla
 informacion.innerHTML = Infor; // mostramos un mensajito
 res.innerHTML = _res;
-
-
-
 
 
 }
@@ -212,28 +266,28 @@ return linea;
 function generarRes(Pn,ER,n,ecuacion){//genera campos con los resultados
 
   var resultados = 
-  '<div class="col-xs-3">'+
+  '<div class="col-sm-3">'+
           '<div class="form-group">'+
               '<label>Raiz Encontrada:</label>'+
               '<input class="form-control" value="'+Pn+'" readonly>'+
           '</div>'+
   '</div>'+
 
-  '<div class="col-xs-3">'+
+  '<div class="col-sm-3">'+
      '<div class="form-group">'+
           '<label>Error Relativo:</label>'+
           '<input class="form-control" value="'+ER+'" readonly>'+
       '</div>'+
   '</div>'+
 
-  '<div class="col-xs-2">'+
+  '<div class="col-sm-2">'+
       '<div class="form-group">'+
           '<label>Iteraciones:</label>'+
           '<input class="form-control" value="'+n+'" readonly>'+
       '</div>'+
   '</div>'+
 
-  '<div class="col-xs-4">'+
+  '<div class="col-sm-4">'+
       '<div class="form-group">'+
           '<label>Funcion utilizada:</label>'+
           '<input class="form-control" value="'+ecuacion+'" readonly>'+
@@ -241,6 +295,5 @@ function generarRes(Pn,ER,n,ecuacion){//genera campos con los resultados
   '</div>';
            
   return resultados;                     
-
 
 }
