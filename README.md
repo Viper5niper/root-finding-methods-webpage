@@ -1,5 +1,12 @@
 Web tool for finding roots to any equation using bisection and fixed point iteration methods
 
+Instalation and usage:
+clone the repository
+```
+git clone https://github.com/Viper5niper/root-finding-methods-webpage
+```
+Open index.html
+
 Screenshots:
 <img width="2880" height="1634" alt="image" src="https://github.com/user-attachments/assets/ed2aea54-f5fa-4ab0-bc8d-33929004b1f6" />
 <img width="2880" height="1620" alt="image" src="https://github.com/user-attachments/assets/c70df018-7c35-4094-a561-6894ef0d85f4" />
